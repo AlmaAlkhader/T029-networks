@@ -1,0 +1,11 @@
+{
+  "tcp_port": 5386,
+  "http_port": 6386,
+  "server_host": "0.0.0.0",
+  "log_file": "logs/server_log.jsonl",
+  "stats_file": "data/statistics.json",
+  "max_clients": 10,
+  "default_homepage": "/home",
+  "buffer_size": 4096,
+  "command_timeout_seconds": 10
+}

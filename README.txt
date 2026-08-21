@@ -3,8 +3,7 @@ ENCS3320 Computer Networks Team Project (T029)
 
 Team
 ----
-Team lead: Alma
-Members: Mohammed and Eman
+Members: Mohammed and Eman and Alma
 
 Configure config.json
 ----------------------

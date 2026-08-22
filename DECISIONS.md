@@ -32,3 +32,17 @@ request fail.
 - Person B: `server/command_executor.py`, `server/logger.py`, and
   `server/statistics.py`
 - Person C: `core/`, `client/`, and `web/`
+
+## Startup requirements for run_server.py
+
+`run_server.py` must call `logger.init(config["log_file"])` once, immediately
+after loading the config and before the TCP server starts accepting clients.
+Without this, `logger.log_request()` will crash on the first request.
+
+`client_handler.py` must call `command_executor.execute()` with the
+configured timeout, not the default:
+
+`executor_module.execute(command, parameter, timeout=config["command_timeout_seconds"])`
+
+Without the `timeout` argument, `command_timeout_seconds` in config.json is
+silently ignored and every command falls back to a 10-second default.

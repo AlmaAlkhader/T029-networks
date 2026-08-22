@@ -80,6 +80,4 @@ def execute(command, parameter, timeout=10):
             "error": f"Command not found on this system: {full_cmd[0]}"
         } 
 
-if __name__ == "__main__":
-    result = execute("PING", "google.com", timeout=5)
-    print(result)
+

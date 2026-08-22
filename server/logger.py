@@ -4,8 +4,14 @@ from pathlib import Path
 
 _log_lock = threading.Lock()
 
-def log_request(log_file, entry):
-    log_path = Path(log_file)
+_log_file_path = None
+
+def init(log_file):
+    global _log_file_path
+    _log_file_path = log_file
+
+def log_request(entry):
+    log_path = Path(_log_file_path)
     log_path.parent.mkdir(parents=True, exist_ok=True)
 
     line = json.dumps(entry)

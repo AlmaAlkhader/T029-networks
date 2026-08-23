@@ -190,19 +190,6 @@ execution_time (if duration) or timestamp (if timestamp). Without this,
 Dashboard would show a blank/zero value right after a restart even though
 Command History still shows real past entries.
 
-### average_execution_time may be distorted by zero-duration entries - NEEDS A DECISION
-
-EXIT (execution_time: 0.0) and rejected/malformed requests (also
-execution_time: 0.0) are both logged and both currently included in the
-total_commands / total_execution_time calculation used for
-average_execution_time. This means every session's EXIT, plus any rejected
-attempts, will drag the average down toward zero - the same kind of
-distortion we already excluded EXIT from for "most frequently used
-command," but never addressed for this statistic. Need to decide: should
-average_execution_time only count real, executed diagnostic commands
-(excluding EXIT and rejected requests), the same way most-frequent-command
-already does?
-
 ### NSLOOKUP - needs real verification
 
 Eman must confirm the actual exit code and output text nslookup produces

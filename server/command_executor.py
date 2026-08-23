@@ -39,7 +39,8 @@ def execute(command, parameter, timeout=10):
     if command not in COMMAND_MAP:
         return {
             "status": "Failed",
-            "error": f"Unknown command: {command}"
+            "error": f"Unknown command: {command}",
+            "execution_time": 0.0
         }
     
     base_cmd = COMMAND_MAP[command][os_name]
@@ -80,12 +81,16 @@ def execute(command, parameter, timeout=10):
             "execution_time": round(execution_time, 3)
         }
     except subprocess.TimeoutExpired:
+        execution_time = time.perf_counter() - start_time
         return {
             "status": "Failed",
-            "error": f"Command timed out after {timeout} seconds"
+            "error": f"Command timed out after {timeout} seconds",
+            "execution_time": round(execution_time, 3),
         } 
     except FileNotFoundError:
+        execution_time = time.perf_counter() - start_time
         return {
             "status": "Failed",
-            "error": f"Command not found on this system: {full_cmd[0]}"
+            "error": f"Command not found on this system: {full_cmd[0]}",
+            "execution_time": round(execution_time, 3),
         } 

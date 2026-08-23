@@ -64,6 +64,16 @@ executor_module.execute(command, parameter, timeout=config["command_timeout_seco
 Without the timeout argument, command_timeout_seconds in config.json is
 silently ignored and every command falls back to a 10-second default.
 
+### Why command_timeout_seconds is 10
+
+10 seconds balances two risks: too short risks timing out a slow-but-working
+command (tracert can legitimately take a while), too long risks a hung
+command occupying a client thread - and therefore a max_clients slot - for
+an extended period. This value is a deliberate choice, not a placeholder;
+if it needs adjusting later (e.g. tracert timing out too often in testing),
+change it in config.json rather than hardcoding a different number anywhere
+else.
+
 ### Max clients exceeded
 
 When the maximum number of clients is already connected, the server still

@@ -69,9 +69,9 @@ def read_log_entries(log_file):
 def home_page():
     content = """<h1>Team T029</h1>
 <table><tr><th>Name</th><th>Student ID</th><th>Section</th></tr>
-<tr><td>Mohammed</td><td>TODO</td><td>TODO</td></tr>
-<tr><td>Eman</td><td>TODO</td><td>TODO</td></tr>
-<tr><td>Alma</td><td>TODO</td><td>TODO</td></tr></table>
+<tr><td>Mohammad Joudeh</td><td>1241945</td><td>2</td></tr>
+<tr><td>Eman Zayed</td><td>1240916</td><td>2</td></tr>
+<tr><td>Alma Alkhader</td><td>1240386</td><td>2</td></tr></table>
 <h2>ENCS3320 - Computer Networks</h2>
 <p>ENCS3320 explores socket programming, HTTP, client-server architecture, and DNS. The course also applies Application Layer concepts through practical network diagnostic tools.</p>
 <p lang="ar" dir="rtl">مرحباً بكم في مشروع شبكات الحاسوب لفريق T029.</p>"""

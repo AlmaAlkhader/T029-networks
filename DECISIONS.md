@@ -161,6 +161,22 @@ average_execution_time, so the Dashboard stays consistent with Command
 History after a restart. active_clients and uptime always reset to zero,
 since they describe the current process, not history.
 
+### Last execution time — CONFIRMED
+
+Dashboard's "Last execution time" is the duration of the most recent
+command (e.g. "0.18 seconds"), not a timestamp. Confirmed by Dr. Nimer -
+"execution time" and "timestamp" are already two separate, distinct fields
+per Part 1's response format ("execution status, command output, execution
+time, timestamp"), so "Last execution time" reuses that same established
+meaning (duration).
+
+### Last execution time on restart
+
+This value must be rebuilt at startup from the execution_time field of the
+LAST entry in the log file. Without this, Dashboard would show a blank or
+zero value right after a restart even though Command History still shows
+real past entries.
+
 ### Required console output (exact wording)
 
 On startup, in this exact order:
@@ -192,22 +208,6 @@ Client disconnected:
 ---
 
 ## STILL NEED DECIDING / CONFIRMING
-
-### Last execution time - NOT YET CONFIRMED
-
-Our working guess is that Dashboard's "Last execution time" means the
-DURATION of the most recent command (e.g. "0.18 seconds"), not a
-timestamp. Email sent to Dr. Nimer asking which is correct - do not treat
-this as final until he replies. Everything below that depends on this
-answer is also blocked.
-
-### Last execution time on restart - BLOCKED
-
-Depends on the answer above. Once confirmed: this value must also be
-rebuilt at startup from the last entry in the log file, using
-execution_time (if duration) or timestamp (if timestamp). Without this,
-Dashboard would show a blank/zero value right after a restart even though
-Command History still shows real past entries.
 
 ### NSLOOKUP - needs real verification
 

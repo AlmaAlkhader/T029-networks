@@ -14,6 +14,63 @@ _stats = {
     "last_execution_time": None,
     "server_start_time": time.time()
 }
+
+
+def rebuild_from_log(log_file):
+    """Rebuild in-memory stats from a saved .jsonl log file after a
+    restart. The log schema (fixed by the project spec) has no explicit
+    "was this really executed" field, so this approximates it: entries
+    with command == "EXIT" or command == "INVALID" are excluded from
+    command_counts and the average_execution_time calculation, the same
+    way live requests are excluded via the executed=False flag. A rejected
+    request that kept a real command name (e.g. a rejected PING with a bad
+    hostname) will be slightly over-counted in this approximation - this
+    is a known, accepted limitation given the log's fixed schema."""
+    from pathlib import Path
+    import json
+
+    log_path = Path(log_file)
+    if not log_path.exists():
+        return  # fresh install, nothing to rebuild
+
+    with _stats_lock:
+        _stats["total_commands"] = 0
+        _stats["success_count"] = 0
+        _stats["fail_count"] = 0
+        _stats["command_counts"] = {}
+        _stats["executed_count"] = 0
+        _stats["executed_execution_time_total"] = 0.0
+        _stats["last_execution_time"] = None
+
+        with log_path.open("r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    entry = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+
+                _stats["total_commands"] += 1
+                if entry.get("status") == "Success":
+                    _stats["success_count"] += 1
+                else:
+                    _stats["fail_count"] += 1
+
+                command = entry.get("command", "")
+                execution_time = entry.get("execution_time", 0.0)
+
+                if command not in ("EXIT", "INVALID"):
+                    _stats["command_counts"][command] = (
+                        _stats["command_counts"].get(command, 0) + 1
+                    )
+                    _stats["executed_count"] += 1
+                    _stats["executed_execution_time_total"] += execution_time
+
+                _stats["last_execution_time"] = execution_time
+
+
 def record_request(command, execution_time, success, executed=True):
     with _stats_lock:
         _stats["total_commands"] += 1

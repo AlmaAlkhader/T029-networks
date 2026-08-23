@@ -132,6 +132,10 @@ responds at least once. The exact results, such as `2 received, 50% packet
 loss`, remain visible in the response's `output` field so a degraded
 connection is still reported to the user.
 
+Before the final build, Eman must confirm this exit-code behavior on Windows
+using `ping.exe`. The evidence for this decision is solid on Linux, but it
+has not yet been directly verified on Windows.
+
 ## Statistics persistence across restart
 
 When the server starts, `statistics.py` reads the entire log file once and

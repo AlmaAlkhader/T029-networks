@@ -77,3 +77,27 @@ command type, hostname, and client IP searches.
 
 `EXIT` is a connection action rather than a diagnostic command. It is not
 written to the log and does not count toward statistics.
+
+## NSLOOKUP failure detection
+
+Unlike the other seven commands, `NSLOOKUP` cannot rely on the exit code alone
+to determine `Success` or `Failed`. Some systems or versions return exit code
+`0` even when the requested domain does not exist.
+
+After running `NSLOOKUP`, the server must perform the normal exit-code check
+and also search the output case-insensitively for any of these phrases:
+
+- `can't find`
+- `nxdomain`
+- `non-existent domain`
+- `server failed`
+
+If any phrase is present, the result is `Failed` regardless of the exit code.
+This output-text check applies only to `NSLOOKUP`. The other six diagnostic
+commands continue to use the general failure definition and rely on the exit
+code.
+
+Before the final build, Eman must confirm the actual exit code and output text
+produced by `nslookup` on both Windows and Linux. The behavior can vary by
+operating system and `nslookup` version, so the phrase list may need to be
+adjusted after testing the real command on both systems.

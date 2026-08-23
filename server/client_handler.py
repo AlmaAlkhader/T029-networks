@@ -236,6 +236,7 @@ def handle_client(
                 continue
 
             if command == "EXIT":
+                exit_timestamp = _timestamp_now()
                 protocol_module.send_message(
                     client_socket,
                     {
@@ -244,13 +245,25 @@ def handle_client(
                         "parameter": "",
                         "output": "Connection closed.",
                         "execution_time": 0.0,
-                        "timestamp": _timestamp_now(),
+                        "timestamp": exit_timestamp,
                     },
+                )
+                _record_request(
+                    logger_module,
+                    statistics_module,
+                    client_address,
+                    "EXIT",
+                    "",
+                    0.0,
+                    "Success",
+                    exit_timestamp,
                 )
                 break
 
             try:
-                result = executor_module.execute(command, parameter)
+                result = executor_module.execute(
+                    command, parameter, timeout=config["command_timeout_seconds"]
+                )
                 status, output, execution_time, execution_error = (
                     _normalize_execution_result(result)
                 )

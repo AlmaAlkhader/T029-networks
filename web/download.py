@@ -12,4 +12,4 @@ def log_download(config):
     headers = {
         "Content-Disposition": 'attachment; filename="server_log.jsonl"',
     }
-    return 200, "application/x-ndjson; charset=UTF-8", body, headers
+    return 200, "application/octet-stream", body, headers

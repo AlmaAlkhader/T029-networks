@@ -61,8 +61,18 @@ def execute(command, parameter, timeout=10):
         )
         execution_time = time.perf_counter() - start_time
         
-        status = "Success" if result.returncode == 0 else "Failed"
         output = result.stdout + result.stderr
+        status = "Success" if result.returncode == 0 else "Failed"
+        if command == "NSLOOKUP":
+            output_lower = output.lower()
+            failure_phrases = (
+                "can't find",
+                "nxdomain",
+                "non-existent domain",
+                "server failed",
+            )
+            if any(phrase in output_lower for phrase in failure_phrases):
+                status = "Failed"
 
         return {
             "status": status,
@@ -79,5 +89,4 @@ def execute(command, parameter, timeout=10):
             "status": "Failed",
             "error": f"Command not found on this system: {full_cmd[0]}"
         } 
-
 

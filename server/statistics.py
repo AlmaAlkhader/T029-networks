@@ -22,7 +22,8 @@ def record_request(command, execution_time, success):
         else:
             _stats["fail_count"] += 1
 
-        _stats["command_counts"][command] = _stats["command_counts"].get(command, 0) + 1
+        if command != "EXIT":
+            _stats["command_counts"][command] = _stats["command_counts"].get(command, 0) + 1
 
         _stats["total_execution_time"] += execution_time
         _stats["last_execution_time"] = execution_time

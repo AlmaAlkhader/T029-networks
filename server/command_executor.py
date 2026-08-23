@@ -82,11 +82,10 @@ def execute(command, parameter, timeout=10):
     except subprocess.TimeoutExpired:
         return {
             "status": "Failed",
-            "error": "Command timed out after 10 seconds"
+            "error": f"Command timed out after {timeout} seconds"
         } 
     except FileNotFoundError:
         return {
             "status": "Failed",
             "error": f"Command not found on this system: {full_cmd[0]}"
         } 
-

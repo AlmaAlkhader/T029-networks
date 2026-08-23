@@ -1,42 +1,64 @@
-"""Validation rules for client network commands."""
+"""I keep the command and hostname checks for the client in this file."""
 
 from __future__ import annotations
-
-import re
 
 from core.protocol import ALLOWED_COMMANDS
 
 
-# Command-keyword table:
-# 1 PING     -> PING     (hostname required)
-# 2 TRACERT  -> TRACERT  (hostname required)
-# 3 NSLOOKUP -> NSLOOKUP (hostname required)
-# 4 IPCONFIG -> IPCONFIG (no parameter)
-# 5 ROUTE    -> ROUTE    (no parameter)
-# 6 ARP      -> ARP      (no parameter)
-# 7 NETSTAT  -> NETSTAT  (no parameter)
-# 8 EXIT     -> EXIT     (no parameter)
+# This is the command menu we're using:
+# 1 PING     -> PING     (needs a hostname)
+# 2 TRACERT  -> TRACERT  (needs a hostname)
+# 3 NSLOOKUP -> NSLOOKUP (needs a hostname)
+# 4 IPCONFIG -> IPCONFIG (doesn't need a parameter)
+# 5 ROUTE    -> ROUTE    (doesn't need a parameter)
+# 6 ARP      -> ARP      (doesn't need a parameter)
+# 7 NETSTAT  -> NETSTAT  (doesn't need a parameter)
+# 8 EXIT     -> EXIT     (doesn't need a parameter)
 _HOSTNAME_COMMANDS = frozenset({"PING", "TRACERT", "NSLOOKUP"})
-_HOSTNAME_PATTERN = re.compile(
-    r"^(?=.{1,253}$)(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)(?:\.(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?))*\.?$"
+
+# I list the characters myself so Python's Unicode letter checks don't
+# accidentally allow characters outside the original A-Z and 0-9 rules.
+_HOSTNAME_CHARACTERS = frozenset(
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-"
 )
 
 
+def _is_valid_hostname(hostname: str) -> bool:
+    """I check the hostname one label at a time instead of using a regex."""
+    if not hostname or len(hostname) > 253:
+        return False
+
+    # A hostname can have one final dot, so I remove it before checking labels.
+    if hostname.endswith("."):
+        hostname = hostname[:-1]
+
+    if not hostname:
+        return False
+
+    labels = hostname.split(".")
+
+    for label in labels:
+        if not label or len(label) > 63:
+            return False
+
+        if label.startswith("-") or label.endswith("-"):
+            return False
+
+        if any(character not in _HOSTNAME_CHARACTERS for character in label):
+            return False
+
+    return True
+
+
 def validate_command(command: str, parameter: str) -> tuple[bool, str]:
-    """Validate a command keyword and any required hostname parameter.
-
-    Parameters supplied to commands that do not need one are intentionally
-    ignored. Hostnames permit only letters, digits, dots, and hyphens, with a
-    maximum total length of 253 and maximum label length of 63 characters.
-    """
-
+    """I check the command and make sure it has a safe hostname when needed."""
     if command not in ALLOWED_COMMANDS:
         return False, f"Unknown command: {command!r}"
 
     if command in _HOSTNAME_COMMANDS:
         if not isinstance(parameter, str) or not parameter:
             return False, f"{command} requires a hostname parameter"
-        if not _HOSTNAME_PATTERN.fullmatch(parameter):
+        if not _is_valid_hostname(parameter):
             return False, "Invalid hostname: use only letters, digits, dots, and hyphens"
 
     return True, ""

@@ -75,8 +75,25 @@ command type, hostname, and client IP searches.
 
 ## EXIT command
 
-`EXIT` is a connection action rather than a diagnostic command. It is not
-written to the log and does not count toward statistics.
+`EXIT` is logged like every other request, with `command: "EXIT"`,
+`parameter: ""`, `execution_time: 0.0`, and `status: "Success"`. It fits
+the normal log schema, and the specification requires every request to be
+stored, so the logging layer must not special-case or discard it.
+
+`EXIT` is included in **Total executed commands** and **Command History**.
+However, it is excluded specifically from the **most frequently used command**
+statistic. Almost every session ends with one `EXIT`, so including it would
+dominate that count and make the statistic less meaningful.
+
+## Logging rejected requests
+
+Requests that fail validation, including an unknown command or invalid
+hostname, are still written to the log. Malformed JSON requests are also
+logged rather than silently discarded.
+
+Rejected requests use `execution_time: 0.0` and `status: "Failed"`. The
+`command` field contains the command sent by the client when it can be parsed,
+or `"INVALID"` when the command itself cannot be determined.
 
 ## NSLOOKUP failure detection
 

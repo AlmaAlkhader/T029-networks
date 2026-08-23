@@ -29,6 +29,15 @@ request. Each object has exactly these fields:
 
 timestamp, client_ip, client_port, command, parameter, execution_time, status
 
+### Logging must be thread-safe
+
+server/logger.py must protect every write to the log file with one shared
+threading.Lock(), since multiple client threads can finish commands and
+try to write a log line at nearly the same moment. Without this lock, two
+threads' writes can interleave mid-line, corrupting the log file (partial/
+garbled JSON lines). This applies to every write, including rejected
+requests and EXIT entries, not just successful diagnostic commands.
+
 ### Failure definition (general rule)
 
 A request is Failed when the OS command returns a non-zero exit code, times

@@ -190,3 +190,16 @@ confirmed meaning is a timestamp.
 Without rebuilding it, the Dashboard would show a blank or zero value
 immediately after a restart even though Command History still contains real
 past entries.
+
+## EXIT and Total successful requests
+
+`EXIT` counts toward **Total successful requests** on the Statistics page
+because it is logged with `status: "Success"`, and no rule excludes it from
+that total. A clean client disconnect is a request the server handled
+successfully.
+
+This is separate from the **most frequently used command** rule. `EXIT` is
+excluded from that one calculation only because it would misleadingly
+dominate a statistic intended to show which diagnostic command is most
+popular. **Total successful requests** measures how much of everything the
+server handled successfully, so it includes `EXIT`.

@@ -25,7 +25,7 @@ def record_request(command, execution_time, success):
         _stats["command_counts"][command] = _stats["command_counts"].get(command, 0) + 1
 
         _stats["total_execution_time"] += execution_time
-        _stats["last_execution_time"] = time.time()
+        _stats["last_execution_time"] = execution_time
 
 def client_connected():
     with _stats_lock:
@@ -67,4 +67,3 @@ def get_snapshot():
         }
 
         return snapshot
-

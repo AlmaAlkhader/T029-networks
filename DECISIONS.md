@@ -131,3 +131,14 @@ Partial packet loss is therefore not treated as a hard failure when the host
 responds at least once. The exact results, such as `2 received, 50% packet
 loss`, remain visible in the response's `output` field so a degraded
 connection is still reported to the user.
+
+## Statistics persistence across restart
+
+When the server starts, `statistics.py` reads the entire log file once and
+rebuilds `total_commands`, `success_count`, `fail_count`, `command_counts`,
+and `average_execution_time`. This keeps the Dashboard statistics consistent
+with the Command History table after a restart.
+
+`active_clients` and uptime always reset to zero on restart. They describe
+only the currently running server process, not historical activity, so they
+are not rebuilt from the log.

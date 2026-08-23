@@ -73,6 +73,7 @@ def _record_request(
     execution_time,
     status,
     timestamp,
+    executed,
 ):
     entry = {
         "timestamp": timestamp,
@@ -101,6 +102,7 @@ def _record_request(
             command,
             execution_time,
             status == "Success",
+            executed=executed,
         )
     except Exception as error:
         print("Statistics update error: " + str(error))
@@ -129,6 +131,7 @@ def _send_and_record_failure(
             0.0,
             "Failed",
             response["timestamp"],
+            False,
         )
 
 
@@ -257,6 +260,7 @@ def handle_client(
                     0.0,
                     "Success",
                     exit_timestamp,
+                    False,
                 )
                 break
 
@@ -299,6 +303,7 @@ def handle_client(
                     execution_time,
                     status,
                     timestamp,
+                    True,
                 )
 
     except (ConnectionResetError, BrokenPipeError, socket.timeout, OSError):

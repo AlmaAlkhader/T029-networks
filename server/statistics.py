@@ -8,12 +8,13 @@ _stats = {
     "success_count": 0,
     "fail_count": 0,
     "command_counts": {},
-    "total_execution_time": 0.0,
+    "executed_count": 0,
+    "executed_execution_time_total": 0.0,
     "active_clients": 0,
     "last_execution_time": None,
     "server_start_time": time.time()
 }
-def record_request(command, execution_time, success):
+def record_request(command, execution_time, success, executed=True):
     with _stats_lock:
         _stats["total_commands"] += 1
 
@@ -22,10 +23,10 @@ def record_request(command, execution_time, success):
         else:
             _stats["fail_count"] += 1
 
-        if command != "EXIT":
+        if executed:
             _stats["command_counts"][command] = _stats["command_counts"].get(command, 0) + 1
-
-        _stats["total_execution_time"] += execution_time
+            _stats["executed_count"] += 1
+            _stats["executed_execution_time_total"] += execution_time
         _stats["last_execution_time"] = execution_time
 
 def client_connected():
@@ -41,8 +42,8 @@ def get_snapshot():
     with _stats_lock:
         total = _stats["total_commands"]
 
-        if total > 0:
-            average_execution_time = _stats["total_execution_time"] / total
+        if _stats["executed_count"] > 0:
+            average_execution_time = _stats["executed_execution_time_total"] / _stats["executed_count"]
         else:
             average_execution_time = 0.0
 

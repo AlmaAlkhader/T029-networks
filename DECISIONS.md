@@ -142,3 +142,32 @@ with the Command History table after a restart.
 `active_clients` and uptime always reset to zero on restart. They describe
 only the currently running server process, not historical activity, so they
 are not rebuilt from the log.
+
+## Required console output
+
+On startup, the server must print the following lines in this exact order and
+with this exact wording:
+
+```text
+Loading configuration...
+Logger initialized.
+Statistics initialized.
+TCP Server started on port <tcp_port>.
+HTTP Server started on port <http_port>.
+Waiting for client connections...
+```
+
+On each client connection, it must print:
+
+```text
+Client connected:
+<client_ip>:<client_port>
+Thread-<N> created.
+```
+
+On each client disconnection, it must print:
+
+```text
+Client disconnected:
+<client_ip>:<client_port>
+```

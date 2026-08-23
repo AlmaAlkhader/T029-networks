@@ -12,6 +12,16 @@ Student ID `1240386` ends in `386`. Adding `5000` gives TCP port `5386`; adding
 Both client-to-server and server-to-client traffic uses one JSON object per
 line. Every JSON object is terminated by a single newline character.
 
+### This framing rule is only for our protocol
+
+The single-newline framing rule applies only to `core/protocol.py`, which
+implements the custom TCP diagnostic protocol.
+
+`web/http_server.py` must follow the real HTTP specification instead. HTTP
+uses `\r\n\r\n` (carriage-return plus newline, twice) to mark the end of
+the request headers. This is a separate, required standard and must not be
+replaced with the custom protocol's single-newline framing.
+
 ## Logging
 
 The server log uses JSON Lines (`.jsonl`): one JSON object per completed

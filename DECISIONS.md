@@ -118,3 +118,16 @@ Before the final build, Eman must confirm the actual exit code and output text
 produced by `nslookup` on both Windows and Linux. The behavior can vary by
 operating system and `nslookup` version, so the phrase list may need to be
 adjusted after testing the real command on both systems.
+
+## PING partial packet loss
+
+`PING` does not need special failure handling. Unlike `NSLOOKUP`, standard
+`ping` implementations use exit code `0` when at least one reply is received
+and a non-zero exit code for total packet loss. This matches the project's
+definition of reachability, so `PING` follows the general failure rule and
+trusts the exit code without an output-text override.
+
+Partial packet loss is therefore not treated as a hard failure when the host
+responds at least once. The exact results, such as `2 received, 50% packet
+loss`, remain visible in the response's `output` field so a degraded
+connection is still reported to the user.

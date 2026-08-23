@@ -175,3 +175,18 @@ On each client disconnection, it must print:
 Client disconnected:
 <client_ip>:<client_port>
 ```
+
+## Last execution time on restart
+
+**BLOCKED:** This depends on Dr. Nimer's confirmation of whether **Last
+execution time** means a command duration or a timestamp, as discussed in the
+**Last execution time** section above.
+
+Once the definition is confirmed, this value must also be rebuilt during
+startup from the last entry in the log file. The server must use
+`execution_time` if the confirmed meaning is duration, or `timestamp` if the
+confirmed meaning is a timestamp.
+
+Without rebuilding it, the Dashboard would show a blank or zero value
+immediately after a restart even though Command History still contains real
+past entries.

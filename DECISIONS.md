@@ -46,3 +46,34 @@ configured timeout, not the default:
 
 Without the `timeout` argument, `command_timeout_seconds` in config.json is
 silently ignored and every command falls back to a 10-second default.
+
+## Max clients exceeded
+
+When the maximum number of clients is already connected, the server still
+accepts the new connection, sends a server-full error message, and then closes
+that connection.
+
+## Protocol error message
+
+The server-full rejection is a third message shape:
+
+`{"type": "error", "error": "...", ...}`
+
+This is separate from the welcome message and the normal command response.
+Client code must check for `"type": "error"` before treating a received
+message as a normal command result.
+
+## Last execution time
+
+The dashboard's **Last execution time** value is the duration of the most
+recent command, such as `0.18 seconds`. It is not a timestamp.
+
+## Search matching
+
+All search fields use partial, case-insensitive matching. This applies to
+command type, hostname, and client IP searches.
+
+## EXIT command
+
+`EXIT` is a connection action rather than a diagnostic command. It is not
+written to the log and does not count toward statistics.

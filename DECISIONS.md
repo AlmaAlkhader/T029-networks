@@ -88,6 +88,18 @@ excluded specifically from the most frequently used command statistic,
 since almost every session ends with one EXIT and including it would
 dominate that count.
 
+### average_execution_time excludes non-executed entries
+
+EXIT and requests rejected by validation before reaching command_executor are
+excluded from average_execution_time. This is for the same reason EXIT is
+excluded from most_frequent_command: neither represents real diagnostic work,
+so including their execution_time: 0.0 would misleadingly drag the average
+toward zero.
+
+Failed commands that did actually execute, including timeouts and unreachable
+hosts, are still included because they represent real elapsed time spent
+attempting a genuine diagnostic operation.
+
 ### EXIT and Total successful requests
 
 EXIT counts toward Total successful requests, since it's logged with

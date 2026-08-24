@@ -7,5 +7,5 @@
   "max_clients": 10,
   "default_homepage": "/home",
   "buffer_size": 4096,
-  "command_timeout_seconds": 10
+  "command_timeout_seconds": 90
 }

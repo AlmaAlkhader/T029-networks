@@ -67,8 +67,7 @@ def rebuild_from_log(log_file):
                     )
                     _stats["executed_count"] += 1
                     _stats["executed_execution_time_total"] += execution_time
-
-                _stats["last_execution_time"] = execution_time
+                    _stats["last_execution_time"] = execution_time
 
 
 def record_request(command, execution_time, success, executed=True):
@@ -84,7 +83,7 @@ def record_request(command, execution_time, success, executed=True):
             _stats["command_counts"][command] = _stats["command_counts"].get(command, 0) + 1
             _stats["executed_count"] += 1
             _stats["executed_execution_time_total"] += execution_time
-        _stats["last_execution_time"] = execution_time
+            _stats["last_execution_time"] = execution_time
 
 def client_connected():
     with _stats_lock:

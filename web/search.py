@@ -50,10 +50,10 @@ def search_page(config, query_string):
     filters = parse_query(query_string)
     entries = pages.read_log_entries(config["log_file"])
     matches = [entry for entry in entries if _matches(entry, filters)]
-    form = """<h1>Search</h1><form method="GET" action="/search">
-<label>Command <input name="type" value="{type}"></label>
-<label>Hostname <input name="hostname" value="{hostname}"></label>
-<label>Client IP <input name="ip" value="{ip}"></label>
+    form = """<h1>Search</h1><form class="search-form" method="GET" action="/search">
+<div class="form-field"><label for="type">Command</label><input id="type" name="type" value="{type}"></div>
+<div class="form-field"><label for="hostname">Hostname</label><input id="hostname" name="hostname" value="{hostname}"></div>
+<div class="form-field"><label for="ip">Client IP</label><input id="ip" name="ip" value="{ip}"></div>
 <button type="submit">Search</button></form>""".format(
         type=html.escape(filters["type"], quote=True),
         hostname=html.escape(filters["hostname"], quote=True),

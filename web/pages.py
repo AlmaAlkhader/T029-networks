@@ -9,20 +9,21 @@ from server import statistics as server_statistics
 
 STYLE = """
 <style>
-body { font-family: Arial, sans-serif; margin: 0; background: #f3f6fa; color: #172033; }
-header { background: #173b67; color: white; padding: 1rem 2rem; }
-nav a { color: white; margin-right: 1rem; text-decoration: none; }
-main { max-width: 1000px; margin: 2rem auto; background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 3px 14px #ccd5e0; }
-h1, h2 { color: #173b67; }
+body { font-family: Arial, Helvetica, sans-serif; margin: 0; background: #fdfaf3; color: #2b2b2b; }
+header { background: #2f6f4f; color: white; padding: 1rem 2rem; }
+nav a { color: white; margin-right: 1rem; text-decoration: underline; }
+main { max-width: 900px; margin: 2rem auto; background: white; padding: 1.5rem; border: 1px solid #ddd; border-radius: 6px; }
+h1, h2 { color: #2f6f4f; }
 table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-th, td { border: 1px solid #ccd5e0; padding: .65rem; text-align: left; }
-th { background: #e8f0f8; }
-.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1rem; }
-.card { background: #eaf2fb; padding: 1rem; border-radius: 8px; }
+th, td { border: 1px solid #ddd; padding: .6rem; text-align: left; }
+th { background: #eef6f0; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
+.card { background: #f5faf6; border: 1px solid #d8e8dd; padding: 1rem; border-radius: 6px; }
 label { display: inline-block; margin: .4rem; }
-input { padding: .45rem; }
-button { padding: .5rem 1rem; background: #173b67; color: white; border: 0; border-radius: 4px; }
-.message { padding: 1rem; background: #fff4ce; border-radius: 6px; }
+input { padding: .4rem; border: 1px solid #ccc; border-radius: 4px; }
+button { padding: .5rem 1rem; background: #d97b29; color: white; border: 0; border-radius: 4px; }
+button:hover { background: #c06a1f; }
+.message { padding: 1rem; background: #fff6dc; border: 1px solid #f0dca0; border-radius: 6px; }
 </style>
 """
 
@@ -73,8 +74,7 @@ def home_page():
 <tr><td>Eman Zayed</td><td>1240916</td><td>2</td></tr>
 <tr><td>Alma Alkhader</td><td>1240386</td><td>2</td></tr></table>
 <h2>ENCS3320 - Computer Networks</h2>
-<p>ENCS3320 explores socket programming, HTTP, client-server architecture, and DNS. The course also applies Application Layer concepts through practical network diagnostic tools.</p>
-<p lang="ar" dir="rtl">مرحباً بكم في مشروع شبكات الحاسوب لفريق T029.</p>"""
+<p>ENCS3320 explores socket programming, HTTP, client-server architecture, and DNS. The course also applies Application Layer concepts through practical network diagnostic tools.</p>"""
     return page("Home", content)
 
 

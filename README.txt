@@ -3,15 +3,10 @@ ENCS3320 Computer Networks Team Project (T029)
 
 Team
 ----
-Team lead: Alma Alkhader (Student ID: 1240386, Section: 2)
-Members:
+  Alma Alkhader (Student ID: 1240386, Section: 2)
   Mohammad Joudeh (Student ID: 1241945, Section: 2)
   Eman Zayed (Student ID: 1240916, Section: 2)
 
-Dependencies
-------------
-None. This project uses only Python's standard library (socket, threading,
-os, subprocess, time, datetime, json, pathlib). No pip install is required.
 
 Configure config.json
 ----------------------
@@ -66,7 +61,7 @@ Reproducing the multi-client demo
 Start the server in one terminal, then open two or more additional
 terminals and run run_client.py in each. Every client gets its own
 thread on the server (Thread-1, Thread-2, ...) and can run commands
-independently and concurrently - a slow command on one client does not
+independently and concurrently  a slow command on one client does not
 block another.
 
 Web interface
@@ -94,11 +89,5 @@ search matching works, and what happens when max_clients is exceeded).
 Every such decision, and the reasoning behind it, is documented in
 DECISIONS.md at the project root.
 
-Note on the log file
----------------------
-We didn't push logs/server_log.jsonl to GitHub while building the project,
-so each of us was working with our own separate log on our own computer.
-Whenever someone picked up the latest code, they started with a fresh log,
-not a shared one. The current log file is our three separate testing logs
-merged together, so it only covers our most recent testing, not the whole
-project from the very start.
+
+

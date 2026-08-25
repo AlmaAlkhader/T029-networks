@@ -1,0 +1,16 @@
+{"timestamp": "2026-08-24T15:27:13", "client_ip": "127.0.0.1", "client_port": 53419, "command": "IPCONFIG", "parameter": "", "execution_time": 0.031, "status": "Success"}
+{"timestamp": "2026-08-24T15:27:40", "client_ip": "127.0.0.1", "client_port": 53419, "command": "ROUTE", "parameter": "", "execution_time": 0.054, "status": "Success"}
+{"timestamp": "2026-08-24T15:27:43", "client_ip": "127.0.0.1", "client_port": 53419, "command": "ARP", "parameter": "", "execution_time": 0.019, "status": "Success"}
+{"timestamp": "2026-08-24T15:27:45", "client_ip": "127.0.0.1", "client_port": 53419, "command": "NETSTAT", "parameter": "", "execution_time": 0.015, "status": "Success"}
+{"timestamp": "2026-08-24T15:27:46", "client_ip": "127.0.0.1", "client_port": 53419, "command": "EXIT", "parameter": "", "execution_time": 0.0, "status": "Success"}
+{"timestamp": "2026-08-24T16:21:20", "client_ip": "127.0.0.1", "client_port": 57398, "command": "PING", "parameter": "google.com", "execution_time": 3.09, "status": "Success"}
+{"timestamp": "2026-08-24T16:21:52", "client_ip": "127.0.0.1", "client_port": 57398, "command": "IPCONFIG", "parameter": "", "execution_time": 0.022, "status": "Success"}
+{"timestamp": "2026-08-24T16:22:43", "client_ip": "127.0.0.1", "client_port": 57398, "command": "NETSTAT", "parameter": "", "execution_time": 0.017, "status": "Success"}
+{"timestamp": "2026-08-24T16:30:04", "client_ip": "127.0.0.1", "client_port": 57398, "command": "PING", "parameter": "google.com", "execution_time": 3.115, "status": "Success"}
+{"timestamp": "2026-08-24T16:30:16", "client_ip": "127.0.0.1", "client_port": 61222, "command": "NSLOOKUP", "parameter": "birzeit.edu", "execution_time": 0.293, "status": "Success"}
+{"timestamp": "2026-08-24T16:30:22", "client_ip": "127.0.0.1", "client_port": 61709, "command": "ROUTE", "parameter": "", "execution_time": 0.08, "status": "Success"}
+{"timestamp": "2026-08-24T18:18:35", "client_ip": "127.0.0.1", "client_port": 51016, "command": "ROUTE", "parameter": "", "execution_time": 0.056, "status": "Success"}
+{"timestamp": "2026-08-24T18:19:06", "client_ip": "127.0.0.1", "client_port": 51016, "command": "ARP", "parameter": "", "execution_time": 0.04, "status": "Success"}
+{"timestamp": "2026-08-25T12:34:42", "client_ip": "127.0.0.1", "client_port": 62562, "command": "PING", "parameter": "google.com", "execution_time": 3.112, "status": "Success"}
+{"timestamp": "2026-08-25T12:35:02", "client_ip": "127.0.0.1", "client_port": 62562, "command": "ROUTE", "parameter": "", "execution_time": 0.077, "status": "Success"}
+{"timestamp": "2026-08-25T12:35:40", "client_ip": "127.0.0.1", "client_port": 62562, "command": "ARP", "parameter": "", "execution_time": 0.043, "status": "Success"}

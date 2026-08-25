@@ -3,38 +3,102 @@ ENCS3320 Computer Networks Team Project (T029)
 
 Team
 ----
-Members: Mohammed and Eman and Alma
+Team lead: Alma Alkhader (Student ID: 1240386, Section: 2)
+Members:
+  Mohammad Joudeh (Student ID: 1241945, Section: 2)
+  Eman Zayed (Student ID: 1240916, Section: 2)
+
+Dependencies
+------------
+None. This project uses only Python's standard library (socket, threading,
+os, subprocess, time, datetime, json, pathlib). No pip install is required.
 
 Configure config.json
 ----------------------
-The shared defaults are stored in config.json. Update the host, TCP/HTTP ports,
-file paths, client limit, buffer size, or timeout there when required.
+All adjustable settings live in config.json at the project root:
 
-TODO: Document any environment-specific configuration after the server and web
-components are implemented.
+  tcp_port                  - port the TCP diagnostic server listens on (5386)
+  http_port                 - port the HTTP web server listens on (6386)
+  server_host                - address the servers bind to ("0.0.0.0" = all interfaces)
+  log_file                    - relative path to the log file (logs/server_log.jsonl)
+  stats_file                   - relative path reserved for statistics data
+  max_clients                  - maximum number of TCP clients allowed at once
+  default_homepage              - which page loads at the bare "/" URL ("/home")
+  buffer_size                    - socket read buffer size in bytes
+  command_timeout_seconds         - how long a diagnostic command may run before
+                                     it is treated as timed out
+
+Ports 5386 and 6386 are computed from team member Alma's student ID
+(1240386) per the assignment's port formula (last 3 digits + 5000 / + 6000).
 
 Run the server
 --------------
 Windows:
     py run_server.py
 
-Linux:
+Linux / macOS:
     python3 run_server.py
 
-TODO: Add server prerequisites and command-line options when server code exists.
+On startup you should see:
+    Loading configuration...
+    Logger initialized.
+    Statistics initialized.
+    TCP Server started on port 5386.
+    HTTP Server started on port 6386.
+    Waiting for client connections...
+
+Leave this running - it is both the diagnostic server and the web server.
 
 Run a client
 ------------
 Windows:
     py run_client.py
 
-Linux:
+Linux / macOS:
     python3 run_client.py
 
-TODO: Add client usage examples and command-line options when client code exists.
+This connects to the server and shows the interactive menu (Ping Host,
+Trace Route, DNS Lookup, IP Configuration, Routing Table, ARP Table,
+Active TCP Connections, Exit).
+
+Reproducing the multi-client demo
+----------------------------------
+Start the server in one terminal, then open two or more additional
+terminals and run run_client.py in each. Every client gets its own
+thread on the server (Thread-1, Thread-2, ...) and can run commands
+independently and concurrently - a slow command on one client does not
+block another.
 
 Web interface
--------------
-Open http://localhost:6386 in a browser.
+--------------
+With the server running, open:
+    http://localhost:6386
 
-TODO: Add web-interface setup details when the web component exists.
+Pages available: Home, Dashboard, Command History, Statistics, Search,
+Download Log.
+
+Known platform notes
+----------------------
+- IP Configuration, Routing Table, ARP Table, and Active TCP Connections
+  (menu options 4-7) call OS-specific commands (ip/ss on Linux,
+  ipconfig/route/arp/netstat on Windows) and are not expected to work on
+  macOS, since macOS uses different underlying tools than either.
+- NSLOOKUP and PING behavior have been verified on Linux and macOS; see
+  DECISIONS.md for Windows-specific verification notes.
+
+Design decisions
+------------------
+A number of judgment calls were required where the assignment left
+behavior unspecified (for example, what counts as a failed command, how
+search matching works, and what happens when max_clients is exceeded).
+Every such decision, and the reasoning behind it, is documented in
+DECISIONS.md at the project root.
+
+Note on the log file
+---------------------
+We didn't push logs/server_log.jsonl to GitHub while building the project,
+so each of us was working with our own separate log on our own computer.
+Whenever someone picked up the latest code, they started with a fresh log,
+not a shared one. The current log file is our three separate testing logs
+merged together, so it only covers our most recent testing, not the whole
+project from the very start.
